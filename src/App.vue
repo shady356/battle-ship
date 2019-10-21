@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Board/>
+    <TheGame/>
   </div>
 </template>
 
 <script>
 
-import Board from '@/components/Board.vue'
+import TheGame from '@/components/TheGame.vue'
 export default {
   name: 'app',
   components: {
-    Board
+    TheGame
   }
 }
 </script>
@@ -20,11 +20,11 @@ body {
   background: #333;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #aaa;
   margin-top: 60px;
 }
 </style>
