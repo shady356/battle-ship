@@ -26,6 +26,9 @@ export default {
     return {
       attempts: 30,
       numOfShips: 3,
+      GRID_SIZE: 8,
+      shipsToUse: [4,3,2],
+      takenSlots: [],
       ships: [
         {
           id: 1,
@@ -33,39 +36,85 @@ export default {
           isDestroyed: false
         }
       ],
-      shipsToUse: [4,3,2],
-      takenSlot: []
     };
+  },
+  created() {
+    this.generateShips()
   },
   methods: {
     generateShips() {
-      //for(let i = 0; i < this.numOfShips; i++) {
+      for(let i = 0; i < this.numOfShips; i++) {
         
-       // const size = 4 // replace with: this.shipsToUse[i]
-        //const dir = 'horiz' // replace with rand (0,1), as a function: getShipDirection ()
+        const size = this.shipsToUse[i]
+        const dir = this.getShipDirection()
 
-        /* let slot = {
-          r: Math.floor(Math.random() * 8),
-          c: Math.floor(Math.random() * 8)
-        } */
+        this.generateShipCoordinates(size, dir) // return the 
 
-
-        //this.canTakeSlot(slot)
-
-        /* let payload = {
+        /* let ship = {
           id: i,
           isDestroyed: false,
           coordinates: []
         }
         
         this.ships.push(ship) */
-      //}
+      }
     },
-    /* canTakeSlot(slot) {
-      this.takenSlot.some(slot => {
+    generateShipCoordinates(size, dir) {
+      const startSlot = this.getStartSlot()
+      
+      if (this.isNotIntercepting(startSlot, size, dir)) {
+
+        let coordinates = [startSlot]
         
-      });
+        for(let i = 1; i < size; i++) {
+        
+          if (dir === 'horiz') {
+            coordinates.push ( {r: startSlot.r + i, c: startSlot.c} )
+          } else {
+            coordinates.push ( {r: startSlot.r, c: startSlot.c + 1} )
+          }
+        }
+
+        console.log(coordinates)
+
+        /* if (this.canTakeSlot(startSlot)) {
+          
+        } */
+      } else {
+        this.generateShips()
+      }
+
+      
+    },
+    getStartSlot() {
+      return {
+        r: Math.floor(Math.random() * this.GRID_SIZE),
+        c: Math.floor(Math.random() * this.GRID_SIZE)
+      }
+    },
+    isNotIntercepting(startSlot, size, dir) {
+      let lastSlot
+      
+      if(dir === 'horiz') {
+        lastSlot = startSlot.c + (size-1)
+        return (lastSlot <= this.GRID_SIZE -1)
+      } else {
+        lastSlot = startSlot.r + (size-1)
+        return (lastSlot <= this.GRID_SIZE -1)
+      }
+    },
+  /*   canTakeSlots(slot) {
+      if (this.takenSlots.length > 0) {
+        this.takenSlots.some(slot => {
+          
+        });
+      } else {
+        return true
+      }
     }, */
+    getShipDirection() {
+      return (Math.round(Math.random()) <= 0.5) ? 'horiz' : 'vertic' 
+    },
     updateAttempts() {
       this.attempts--;
     }
