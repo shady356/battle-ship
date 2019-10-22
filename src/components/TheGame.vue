@@ -1,17 +1,17 @@
 <template>
   <div class="container">
+
     <div class="attempts">
       {{attempts}} <span>💣</span>
     </div>
+
     <Board 
       class="board"
       :attempts="attempts"
       :ships="ships" 
       @updateAttempts="updateAttempts"
     />
-    <div>
 
-    </div>
   </div>
 </template>
 
@@ -25,17 +25,10 @@ export default {
   data() {
     return {
       attempts: 30,
-      numOfShips: 3,
       GRID_SIZE: 8,
       shipsToUse: [4,3,2],
-      takenSlots: [],
-      ships: [
-        {
-          id: 1,
-          coordinates: [{ r: 3, c: 2 }, { r: 4, c: 2 }, { r: 5, c: 2 }],
-          isDestroyed: false
-        }
-      ],
+      takenCoordinates: [],
+      ships: [],
     };
   },
   created() {
@@ -43,20 +36,23 @@ export default {
   },
   methods: {
     generateShips() {
-      for(let i = 0; i < this.numOfShips; i++) {
+      for(let i = 0; i < this.shipsToUse.length; i++) {
         
         const size = this.shipsToUse[i]
         const dir = this.getShipDirection()
+        let coordinates = false
 
-        this.generateShipCoordinates(size, dir) // return the 
+        while(!coordinates) {
+          coordinates = this.generateShipCoordinates(size, dir) // return the 
+        }
 
-        /* let ship = {
+        let ship = {
           id: i,
           isDestroyed: false,
-          coordinates: []
+          coordinates: coordinates
         }
         
-        this.ships.push(ship) */
+        this.ships.push(ship)
       }
     },
     generateShipCoordinates(size, dir) {
@@ -69,19 +65,26 @@ export default {
         for(let i = 1; i < size; i++) {
         
           if (dir === 'horiz') {
-            coordinates.push ( {r: startSlot.r + i, c: startSlot.c} )
+            coordinates.push ( {r: startSlot.r, c: startSlot.c + i} )
           } else {
-            coordinates.push ( {r: startSlot.r, c: startSlot.c + 1} )
+            coordinates.push ( {r: startSlot.r + i, c: startSlot.c} )
           }
         }
 
-        console.log(coordinates)
+        //console.log(coordinates)
 
-        /* if (this.canTakeSlot(startSlot)) {
-          
-        } */
+        if (this.canTakeCoordinates(coordinates)) {
+          coordinates.forEach(coord => {
+            this.takenCoordinates.push(coord)
+          });
+          return coordinates
+
+        } else {
+          console.log('is taken')
+          return false
+        }
       } else {
-        this.generateShips()
+        return false
       }
 
       
@@ -103,15 +106,20 @@ export default {
         return (lastSlot <= this.GRID_SIZE -1)
       }
     },
-  /*   canTakeSlots(slot) {
-      if (this.takenSlots.length > 0) {
-        this.takenSlots.some(slot => {
-          
+    canTakeCoordinates(coords) {
+      
+      if (this.takenCoordinates.length > 0) {
+        
+        return this.takenCoordinates.every(takenCoord => {
+          return coords.every(coord => {
+            return (coord.r !== takenCoord.r && coord.c !== takenCoord.c)
+          })
         });
+
       } else {
         return true
       }
-    }, */
+    },
     getShipDirection() {
       return (Math.round(Math.random()) <= 0.5) ? 'horiz' : 'vertic' 
     },
