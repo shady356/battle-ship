@@ -42,6 +42,7 @@ export default {
   },
   created() {
     this.grid = this.generateGrid();
+
   },
   methods: {
     generateGrid() {

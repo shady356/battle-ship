@@ -43,7 +43,7 @@ export default {
         let coordinates = false
 
         while(!coordinates) {
-          coordinates = this.generateShipCoordinates(size, dir) // return the 
+          coordinates = this.generateShipCoordinates(size, dir) 
         }
 
         let ship = {
@@ -71,11 +71,9 @@ export default {
           }
         }
 
-        //console.log(coordinates)
-
-        if (this.canTakeCoordinates(coordinates)) {
+        if (!this.isCoordinatesTaken(coordinates)) {
           coordinates.forEach(coord => {
-            this.takenCoordinates.push(coord)
+            this.takenCoordinates.push((coord.r + '' + coord.c ).toString())
           });
           return coordinates
 
@@ -84,6 +82,7 @@ export default {
           return false
         }
       } else {
+        console.log('intercepts')
         return false
       }
 
@@ -106,18 +105,23 @@ export default {
         return (lastSlot <= this.GRID_SIZE -1)
       }
     },
-    canTakeCoordinates(coords) {
-      
+    isCoordinatesTaken(coords) {
+   
       if (this.takenCoordinates.length > 0) {
-        
-        return this.takenCoordinates.every(takenCoord => {
-          return coords.every(coord => {
-            return (coord.r !== takenCoord.r && coord.c !== takenCoord.c)
+        //let counter = 0
+
+        return this.takenCoordinates.some( takenCoord => {
+          console.log(takenCoord)
+          return coords.some(coord => {
+            let string = (coord.r + '' + coord.c ).toString()
+            
+            return(takenCoord === string )
           })
-        });
+        })
+
 
       } else {
-        return true
+        return false
       }
     },
     getShipDirection() {
