@@ -8,7 +8,7 @@
     <Board 
       class="board"
       :attempts="attempts"
-      :ships="ships" 
+      :ships="ships"
       @updateAttempts="updateAttempts"
     />
 
