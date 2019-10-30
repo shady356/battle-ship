@@ -1,10 +1,14 @@
 <template>
   <div class="container">
     <ul class="mainMenuList">
-      <li 
-       v-for="(item,index) in items" :key="index">
+      <router-link 
+       v-for="(item,index) in items" 
+       :key="index"
+       :to="item.path"
+       tag="li">
+ 
         {{item.name}}
-      </li>
+      </router-link> 
     </ul>
   </div>
 </template>
@@ -16,13 +20,16 @@ export default {
     return {
       items: [
         {
-          name: 'Play'
+          name: 'Play',
+          path: '/theGame'
         },
         {
-          name: 'Settings'
+          name: 'Settings',
+          path: '/'
         },
         {
-          name: 'quit'
+          name: 'quit',
+          path: '/'
         }
       ]
     }
@@ -56,8 +63,8 @@ export default {
     border-left: 4px solid transparent;
     cursor: pointer;
     transition: all .4s;
-  
   }
+
   .mainMenuList:hover {
 
     transform: rotate(0deg);

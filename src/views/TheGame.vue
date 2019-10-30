@@ -1,16 +1,30 @@
 <template>
   <div class="container">
 
-    <div class="attempts">
-      {{attempts}} <span>💣</span>
-    </div>
-
     <Board 
       class="board"
       :attempts="attempts"
+      :gridSize="GRID_SIZE"
       :ships="ships"
       @updateAttempts="updateAttempts"
+      @sendShipStatus="updateShipStatus"
     />
+
+    <div class="dashboard">
+
+      <div class="attempts">
+        {{attempts}} <span>💣</span>
+      </div>
+
+      <div class="ships">
+        <div 
+          v-for="ship in ships" 
+          :key="ship.index"
+        >
+          {{(ship.isDestroyed) ? '💥': ''}} <span class="ship-icon">🚢</span> {{ship.coordinates.length}} 
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -24,9 +38,9 @@ export default {
   },
   data() {
     return {
-      attempts: 30,
+      attempts: 40,
       GRID_SIZE: 8,
-      shipsToUse: [4,3,2],
+      shipsToUse: [4,3,2,1],
       takenCoordinates: [],
       ships: [],
     };
@@ -49,7 +63,8 @@ export default {
         let ship = {
           id: i,
           isDestroyed: false,
-          coordinates: coordinates
+          coordinates: coordinates,
+          partsDestroyed: 0
         }
         
         this.ships.push(ship)
@@ -127,8 +142,22 @@ export default {
     getShipDirection() {
       return (Math.round(Math.random()) <= 0.5) ? 'horiz' : 'vertic' 
     },
+    checkDestroyedShipPart(partCoord) {
+      return this.ships.find(ship => {
+        return ship.coordinates.find(coord => {
+         return (coord.r === partCoord.r && coord.c === partCoord.c)
+        })
+      })
+    },
     updateAttempts() {
       this.attempts--;
+    },
+    updateShipStatus(coord) {
+      const ship = this.checkDestroyedShipPart(coord)
+      this.ships[ship.id].partsDestroyed ++
+      if(this.ships[ship.id].partsDestroyed === this.ships[ship.id].coordinates.length) {
+        this.ships[ship.id].isDestroyed = true
+      }
     }
   }
 }
@@ -137,19 +166,42 @@ export default {
 <style scoped>
   .container {
     display: flex;
-    flex-direction: row;
-    align-items: top;
+    flex-direction: column;
+    background: #2873B5;
   }
 
-  .attempts {
-    flex-basis: 20%;
-    font-size: 36px;
-    color: #ddd;
+  .board {
+    padding-top: 20px;
+    display: flex;
+    align-self: center;
+    height: calc(60vh - 20px);
   }
-  .attempts span {
-    font-size: 20px;
-    vertical-align: 8px;
+
+  .dashboard {
+    background: #1e2e38;
+    height: 40vh;
+    display: flex;
   }
+
+    .attempts {
+      padding: 30px 0;
+      flex-basis: 50%;
+      font-size: 36px;
+      color: #ddd;
+    }
+    .attempts span {
+      font-size: 20px;
+      vertical-align: 8px;
+    }
+
+    .ships {
+      padding: 20px 0;
+      font-size: 24px;
+    }
+
+    .ship-icon {
+      font-size: 36px;
+    }
 
 
 </style>

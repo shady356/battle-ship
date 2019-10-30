@@ -1,24 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <MainMenu />
-    <TheGame/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-
-import TheGame from '@/components/TheGame.vue'
-import MainMenu from '@/components/MainMenu.vue'
 export default {
   name: 'app',
-  components: {
-    TheGame,
-    MainMenu
-  }
 }
 </script>
 

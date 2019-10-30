@@ -11,10 +11,8 @@
           :key="slot.column"
           :class="['columns', getTileStatus(slot)]"
           @click="playSlot(slot)"
-        >
-          {{slot.row +',' + slot.column}}
-          <br />
-        </div>
+        
+        />
       </div>
     </div>
   </div>
@@ -25,8 +23,6 @@ export default {
   name: "board",
   data() {
     return {
-      gridSizeRow: 8,
-      gridSizeColumn: 8,
       grid: []
     };
   },
@@ -38,6 +34,10 @@ export default {
     ships: {
       type: Array,
       required: true
+    },
+    gridSize: {
+      type: Number,
+      default: 8,
     }
   },
   created() {
@@ -47,10 +47,10 @@ export default {
   methods: {
     generateGrid() {
       let grid = [];
-      for (let r = 0; r < this.gridSizeRow; r++) {
+      for (let r = 0; r < this.gridSize; r++) {
         grid[r] = [];
 
-        for (let c = 0; c < this.gridSizeColumn; c++) {
+        for (let c = 0; c < this.gridSize; c++) {
           grid[r][c] = {
             row: r,
             column: c,
@@ -64,8 +64,12 @@ export default {
     playSlot(slot) {
       if (!slot.isPlayed) {
         this.grid[slot.row][slot.column].isPlayed = true;
-        this.grid[slot.row][slot.column].isShip = this.isShip(slot.row,slot.column) 
+        const isShipStatus = this.isShip(slot.row,slot.column)
+        this.grid[slot.row][slot.column].isShip = isShipStatus
         this.updateAttempts()
+        if(isShipStatus) {
+          this.sendShipStatus(slot.row,slot.column)
+        }
       }
     },
     isShip(r, c) {
@@ -82,6 +86,9 @@ export default {
     },
     updateAttempts() {
       this.$emit("updateAttempts");
+    },
+    sendShipStatus(r,c) {
+      this.$emit("sendShipStatus", {r,c} );
     }
   }
 };
@@ -89,28 +96,28 @@ export default {
 
 <style scoped>
 .grid {
+  display: block;
   margin: 0 auto;
-  width: 400px;
-  height: 400px;
-  background: #222;
+  width: 100%;
 }
 .rows {
   display: flex;
   flex-direction: row;
+  background-image: url('../assets/water-tile.png');
+  background-size: 40px;
 }
 
 .columns {
-  width: 50px;
-  height: 50px;
-  color: #aaa;
-  border: 1px solid #333;
-  font-size: 12px;
+  width: 40px;
+  height: 40px;
+  
+  border: 1px solid #184c7c;
 }
 
 .isShip {
-  background: #33772b;
+  background: hsla(120,80%,30%,.5)
 }
 .isWrong {
-  background: #1b7777;
+  background: hsla(240,80%,10%,.5)
 }
 </style>
