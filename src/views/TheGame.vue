@@ -13,7 +13,10 @@
     <div class="dashboard">
 
       <div class="attempts">
-        {{attempts}} <span>💣</span>
+        {{attempts}} <span>💣</span><br>
+        <base-button class="ghost">
+          Cancel
+        </base-button>
       </div>
 
       <div class="ships">
@@ -30,11 +33,13 @@
 </template>
 
 <script>
+import BaseButton from '@/components/base/BaseButton.vue'
 import Board from "@/components/Board.vue";
 export default {
   name: "TheGame",
   components: {
-    Board
+    Board,
+    BaseButton
   },
   data() {
     return {
@@ -49,6 +54,9 @@ export default {
     this.generateShips()
   },
   methods: {
+    foobar() {
+      alert('foobar')
+    },
     generateShips() {
       for(let i = 0; i < this.shipsToUse.length; i++) {
         
@@ -93,11 +101,9 @@ export default {
           return coordinates
 
         } else {
-          console.log('is taken')
           return false
         }
       } else {
-        console.log('intercepts')
         return false
       }
 
@@ -126,7 +132,6 @@ export default {
         //let counter = 0
 
         return this.takenCoordinates.some( takenCoord => {
-          console.log(takenCoord)
           return coords.some(coord => {
             let string = (coord.r + '' + coord.c ).toString()
             
