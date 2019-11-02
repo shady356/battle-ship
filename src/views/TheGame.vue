@@ -168,6 +168,7 @@ export default {
     display: flex;
     flex-direction: column;
     background: #2873B5;
+    overflow-x: hidden;
   }
 
   .board {

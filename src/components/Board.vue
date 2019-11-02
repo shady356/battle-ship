@@ -95,8 +95,14 @@ export default {
 </script>
 
 <style scoped>
+.board {
+  perspective: 200px;
+  perspective-origin: bottom; 
+
+}
 .grid {
   display: block;
+  transform: rotateX(15deg);
   margin: 0 auto;
   width: 100%;
 }
@@ -108,14 +114,14 @@ export default {
 }
 
 .columns {
-  width: 40px;
-  height: 40px;
-  
+  width: 35px;
+  height: 35px;
   border: 1px solid #184c7c;
 }
 
+
 .isShip {
-  background: hsla(120,80%,30%,.5)
+  background: rgba(168, 204, 10, 0.5)
 }
 .isWrong {
   background: hsla(240,80%,10%,.5)
