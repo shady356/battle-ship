@@ -14,7 +14,7 @@
 
       <div class="attempts">
         {{attempts}} <span>💣</span><br>
-    <base-button @click="endGameModal=true">foo</base-button>
+    <base-button @click="endGame(true)">foo</base-button>
       </div>
 
       <div class="ships">
@@ -28,12 +28,18 @@
     </div>
 
     <base-modal 
-      v-if="endGameModal"
-      @closeModal="closeEndGameModal()"/>
+      v-show="isEndGameModal"
+      @closeModal="closeEndGameModal()"
+    >
+      <end-game-modal 
+        v-if="endGameData" 
+        :result="endGameData"/>
+    </base-modal>
   </div>
 </template>
 
 <script>
+import EndGameModal from '@/components/EndGameModal.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 import BaseModal from '@/components/base/BaseModal.vue'
 import Board from "@/components/Board.vue";
@@ -42,25 +48,24 @@ export default {
   components: {
     Board,
     BaseButton,
-    BaseModal
+    BaseModal,
+    EndGameModal
   },
   data() {
     return {
       attempts: 40,
-      GRID_SIZE: 8,
-      shipsToUse: [4,3,2,1],
+      GRID_SIZE: 4,
+      shipsToUse: [4],
       takenCoordinates: [],
       ships: [],
-      endGameModal: false,
+      isEndGameModal: false,
+      endGameData: null
     };
   },
   created() {
     this.generateShips()
   },
   methods: {
-    foobar() {
-      alert('foobar')
-    },
     generateShips() {
       for(let i = 0; i < this.shipsToUse.length; i++) {
         
@@ -158,8 +163,16 @@ export default {
         })
       })
     },
+    isAllShipsDestroyed () {
+      return this.ships.every( ship => {
+        return ship.isDestroyed
+      })  
+    },
     updateAttempts() {
       this.attempts--;
+      if(this.attempts < 0) {
+        this.endGame(false)
+      }
     },
     updateShipStatus(coord) {
       const ship = this.checkDestroyedShipPart(coord)
@@ -167,9 +180,20 @@ export default {
       if(this.ships[ship.id].partsDestroyed === this.ships[ship.id].coordinates.length) {
         this.ships[ship.id].isDestroyed = true
       }
+      if(this.isAllShipsDestroyed()) {
+        this.endGame(true)
+      }
+    },
+    endGame(status) {
+      this.endGameData = {
+        win: status,
+        bombs: this.attempts
+      }
+
+      this.isEndGameModal = true
     },
     closeEndGameModal () {
-      this.endGameModal = false
+      this.isEndGameModal = false
     }
   }
 }

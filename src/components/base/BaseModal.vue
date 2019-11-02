@@ -1,14 +1,17 @@
 <template>
-  <div class="modalMask">
-    <div class="modalContainer">
-      <div class="title">
-        Modal title
+  <transition name="modal">
+    <div class="modalMask">
+      <div class="modalContainer">
+        <slot/>
+      </div>
+      <div 
+        class="closeModal" 
+        @click="closeModal()"
+      >
+        Close window
       </div>
     </div>
-    <div 
-      class="closeModal" 
-      @click="closeModal()">Close</div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -36,22 +39,30 @@ export default {
     z-index: 1000;
   }
   .modalContainer {
-    background-image: linear-gradient(#012, #123);
+    position: relative;
+    background-image: linear-gradient(#001122ee, #112233ee);
     padding: 20px;
     color: #ddd;
     width: calc(90vw - 40px);
-    height: calc(90vh - 40px);
+    height: calc(88vh - 40px);
     margin: 2vh auto 0;
     border-radius: 10px;
-  }
-  .title {
-    
+    transform: translateY(0px);
   }
   .closeModal {
-    padding-top: 15px;
+    padding-top: 18px;
     font-size: 20px;
     font-variant: small-caps;
     text-transform: lowercase;
     letter-spacing: 1px;
+  }
+
+  .modal-enter-active, .modal-leave-active {
+    transition: all .3s ease;
+  }
+  .modal-enter, .modal-leave-to  {
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all .4s ease;
   }
 </style>

@@ -6,11 +6,7 @@
 
 <script>
 export default {
-  name: 'app',
-  mounted() {
-    var objDiv = document.getElementById("divExample");
-    objDiv.scrollTop = objDiv.scrollHeight;
-  }
+  name: 'app'
 }
 </script>
 
@@ -31,6 +27,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #aaa;
+}
+
+h2,h3,h4,h5,h6 {
+  margin: 0px;
 }
 
 .noSelect {
