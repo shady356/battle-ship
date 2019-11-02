@@ -7,6 +7,10 @@
 <script>
 export default {
   name: 'app',
+  mounted() {
+    var objDiv = document.getElementById("divExample");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  }
 }
 </script>
 

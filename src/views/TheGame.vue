@@ -14,9 +14,7 @@
 
       <div class="attempts">
         {{attempts}} <span>💣</span><br>
-        <base-button class="ghost">
-          Cancel
-        </base-button>
+    <base-button @click="endGameModal=true">foo</base-button>
       </div>
 
       <div class="ships">
@@ -29,17 +27,22 @@
       </div>
     </div>
 
+    <base-modal 
+      v-if="endGameModal"
+      @closeModal="closeEndGameModal()"/>
   </div>
 </template>
 
 <script>
 import BaseButton from '@/components/base/BaseButton.vue'
+import BaseModal from '@/components/base/BaseModal.vue'
 import Board from "@/components/Board.vue";
 export default {
   name: "TheGame",
   components: {
     Board,
-    BaseButton
+    BaseButton,
+    BaseModal
   },
   data() {
     return {
@@ -48,6 +51,7 @@ export default {
       shipsToUse: [4,3,2,1],
       takenCoordinates: [],
       ships: [],
+      endGameModal: false,
     };
   },
   created() {
@@ -163,6 +167,9 @@ export default {
       if(this.ships[ship.id].partsDestroyed === this.ships[ship.id].coordinates.length) {
         this.ships[ship.id].isDestroyed = true
       }
+    },
+    closeEndGameModal () {
+      this.endGameModal = false
     }
   }
 }
