@@ -4,12 +4,13 @@
       <div class="modalContainer">
         <slot/>
       </div>
-      <div 
+
+      <!-- <div 
         class="closeModal" 
         @click="closeModal()"
       >
         Close window
-      </div>
+      </div> -->
     </div>
   </transition>
 </template>
@@ -35,7 +36,7 @@ export default {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background: #000000aa;
+    background: #000000cc;
     z-index: 1000;
   }
   .modalContainer {
@@ -50,11 +51,14 @@ export default {
     transform: translateY(0px);
   }
   .closeModal {
-    padding-top: 18px;
+    padding: 10px 0;
+    width: 200px;
+    margin: 10px auto;
     font-size: 20px;
     font-variant: small-caps;
     text-transform: lowercase;
     letter-spacing: 1px;
+    border: 1px solid #ddd;
   }
 
   .modal-enter-active, .modal-leave-active {

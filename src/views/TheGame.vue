@@ -212,7 +212,7 @@ export default {
   .container {
     display: flex;
     flex-direction: column;
-    background: #51a1e7;
+    background: #5bb4dd;
     overflow-x: hidden;
   }
 

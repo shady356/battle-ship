@@ -161,17 +161,18 @@ export default {
 .slot {
   width: 35px;
   height: 35px;
-  border: 1px solid #256fb4;
+  border: 1px solid #3693af;
   line-height: 35px;
 }
 
 .isShip {
-  background: rgba(10, 126, 204, 0.5);
+  background: #189dd1;
   color: #fff;
 }
 .isWrong {
-  background: rgba(12, 13, 104, 0.5);
-  color: #01060a;
+  background: rgba(5, 47, 87, 0.5);
+  color: rgb(9, 33, 61);
+  font-weight: 700;
 }
 
 .bomb {
