@@ -11,41 +11,24 @@
       >
       <h2>You Rock!</h2><br><br>
       <div class="label">
-        bombs used
+        bombs left
       </div>
       <div class="value">
-        {{ 40 - (result.bombs)}}
+        {{ result.bombs}}
       </div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-            <base-button @click="retry()">
-        Play again
-      </base-button>
-
     </div>
+
     <!-- fail msg -->
-    <div v-else class="score">
+    <div 
+      v-else 
+      class="score">
       <h2>Game Over</h2>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <base-button @click="retry()">
-        Play again
-      </base-button>
     </div>
 
-    <!-- <div 
-      class="bombsLeft"
-      v-if="result.win"
-    >
-      {{result.bombs}}
-    </div> -->
+    <base-button @click="retry()">
+      Play again
+    </base-button>
+
   </div>
 </template>
 

@@ -9,10 +9,22 @@
         <div
           v-for="slot in row"
           :key="slot.column"
-          :class="['columns', getTileStatus(slot)]"
+          :class="['slot', getTileStatus(slot)]"
           @click="playSlot(slot)"
-        
-        />
+        >
+          <div v-if="slot.isShip && slot.isPlayed">
+            🔥
+          </div>
+          <div v-if="!slot.isShip && slot.isPlayed">
+            x
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="isBomb"
+        :style="cssBombCoords(bombRow, bombCol)" 
+        class="bomb">
+        💣
       </div>
     </div>
   </div>
@@ -23,7 +35,10 @@ export default {
   name: "board",
   data() {
     return {
-      grid: []
+      grid: [],
+      isBomb: false,
+      bombRow: 0,
+      bombCol: 0
     };
   },
   props: {
@@ -41,8 +56,7 @@ export default {
     }
   },
   created() {
-    this.grid = this.generateGrid();
-
+    this.grid = this.generateGrid()
   },
   methods: {
     generateGrid() {
@@ -62,14 +76,27 @@ export default {
       return grid;
     },
     playSlot(slot) {
-      if (!slot.isPlayed) {
-        this.grid[slot.row][slot.column].isPlayed = true;
+      if (!slot.isPlayed && !this.isBomb) {
+        
         const isShipStatus = this.isShip(slot.row,slot.column)
-        this.grid[slot.row][slot.column].isShip = isShipStatus
+        
         this.updateAttempts()
         if(isShipStatus) {
           this.sendShipStatus(slot.row,slot.column)
         }
+        this.isBomb = true
+        this.bombRow = slot.row
+        this.bombCol = slot.column
+        isShipStatus ? this.getBombHitSFX().play() : this.getBombMissSFX().play()
+
+        setTimeout(() => {
+          this.isBomb = false
+          this.bombRow = 0;
+          this.bombCol = 0;
+          this.grid[slot.row][slot.column].isShip = isShipStatus
+          this.grid[slot.row][slot.column].isPlayed = true;
+
+        }, 600)
       }
     },
     isShip(r, c) {
@@ -89,40 +116,86 @@ export default {
     },
     sendShipStatus(r,c) {
       this.$emit("sendShipStatus", {r,c} );
-    }
+    },
+    cssBombCoords(r,c) {
+      const SLOT = 40;
+      return {
+        '--row': (c * SLOT) - (c*3) + (9) + 'px',
+        '--col': ((this.gridSize - r) * -SLOT) - (r*3) + (28)  + 'px'
+      }
+    },
+
+    // Sound Effects
+    getBombMissSFX () {
+      let bombSFX = new Audio(require('@/assets/bombMiss.wav')); 
+      bombSFX.loop = false;
+      bombSFX.volume = 0.5
+      return bombSFX;
+    },
+    getBombHitSFX () {
+      let bombSFX = new Audio(require('@/assets/bombHit.wav')); 
+      bombSFX.loop = false;
+      bombSFX.volume = 0.5
+      return bombSFX;
+    },
+  
   }
 };
 </script>
 
 <style scoped>
 .board {
- 
-
+  display: flex;
 }
 .grid {
-  display: block;
-  transform: rotateX(15deg);
-  margin: 0 auto;
+  position: relative;
+  margin-top: 50px;
   width: 100%;
 }
 .rows {
   display: flex;
   flex-direction: row;
-  background-image: url('../assets/water-tile.png');
-  background-size: 40px;
+
 }
 
-.columns {
+.slot {
   width: 35px;
   height: 35px;
-  border: 1px solid #184c7c;
+  border: 1px solid #256fb4;
+  line-height: 35px;
 }
-
 
 .isShip {
-  background: rgba(168, 204, 10, 0.5)
+  background: rgba(10, 126, 204, 0.5);
+  color: #fff;
 }
 .isWrong {
-  background: hsla(240,80%,10%,.5)
+  background: rgba(12, 13, 104, 0.5);
+  color: #01060a;
+}
+
+.bomb {
+  position: absolute;
+  transform: translate(140px,20px);
+  animation: fireBomb 600ms ease-out;
+  z-index: 1000;
+}
+
+@keyframes fireBomb {
+  0% {
+    transform: translate(140px,20px) scale(1.0);
+  }
+  30% {
+    transform:translate(var(--row), var(--col))  scale(2.0);
+  }
+
+  60% {
+    transform: translate( var(--row), var(--col) ) scale(0.7);
+    opacity: 1;
+  }
+  100% {
+    transform: translate( var(--row), var(--col) ) scale(0.5);
+    opacity: 0;
+  }
 }
 </style>

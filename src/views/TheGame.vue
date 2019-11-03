@@ -31,7 +31,7 @@
           v-for="ship in ships" 
           :key="ship.index"
         >
-          {{(ship.isDestroyed) ? '💥': ''}} <span class="ship-icon">🚢</span> {{ship.coordinates.length}} 
+          {{(ship.isDestroyed) ? '🔥': ''}} <span class="ship-icon">⛴</span> {{ship.coordinates.length}} 
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@ export default {
     },
     updateAttempts() {
       this.attempts--;
-      if(this.attempts < 0) {
+      if(this.attempts < 1) {
         this.endGame(false)
       }
     },
@@ -212,21 +212,21 @@ export default {
   .container {
     display: flex;
     flex-direction: column;
-    background: #2873B5;
+    background: #51a1e7;
     overflow-x: hidden;
   }
 
   .board {
-    padding-top: 20px;
     display: flex;
     align-self: center;
-    height: calc(60vh - 20px);
+    height: 70vh;
   }
 
   .dashboard {
     background: #1e2e38;
-    height: 40vh;
+    height: 30vh;
     display: flex;
+    overflow: hidden;
   }
 
     .attempts {
@@ -246,7 +246,7 @@ export default {
     }
 
     .ship-icon {
-      font-size: 36px;
+      font-size: 30px;
     }
 
 
