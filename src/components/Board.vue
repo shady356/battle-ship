@@ -96,8 +96,7 @@ export default {
 
 <style scoped>
 .board {
-  perspective: 200px;
-  perspective-origin: bottom; 
+ 
 
 }
 .grid {

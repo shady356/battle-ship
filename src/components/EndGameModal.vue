@@ -1,30 +1,65 @@
 <template>
   <div class="end-game-modal-container">
-    <div class="title">
+    <!-- <div class="title">
       {{endGameStatusTitle}}
-    </div>
-    <div class="score">
+    </div> -->
+
+    <!-- Win msg -->
+    <div 
+      class="score"
+      v-if="result.win"
+      >
+      <h2>You Rock!</h2><br><br>
       <div class="label">
-        Score
+        bombs used
       </div>
       <div class="value">
-        1337
+        {{ 40 - (result.bombs)}}
       </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+            <base-button @click="retry()">
+        Play again
+      </base-button>
 
-      <div class="bombsLeft">
-        
-      </div>
     </div>
+    <!-- fail msg -->
+    <div v-else class="score">
+      <h2>Game Over</h2>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <base-button @click="retry()">
+        Play again
+      </base-button>
+    </div>
+
+    <!-- <div 
+      class="bombsLeft"
+      v-if="result.win"
+    >
+      {{result.bombs}}
+    </div> -->
   </div>
 </template>
 
 <script>
+import BaseButton from '@/components/base/BaseButton.vue'
 export default {
   name: 'end-game-modal',
   data() {
     return {
 
     }
+  },
+  components: {
+    BaseButton
   },
   computed: {
     endGameStatusTitle() {
@@ -38,7 +73,9 @@ export default {
     }
   },
   methods: {
-
+    retry() {
+      this.$router.go()
+    }
   }
 }
 </script>

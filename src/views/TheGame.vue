@@ -14,7 +14,16 @@
 
       <div class="attempts">
         {{attempts}} <span>💣</span><br>
-    <base-button @click="endGame(true)">foo</base-button>
+        <base-button 
+          @click="endGame(true)"
+        >
+          test win
+        </base-button>
+        <base-button 
+          @click="endGame(false)"
+        >
+          test fail
+        </base-button>
       </div>
 
       <div class="ships">
@@ -54,8 +63,8 @@ export default {
   data() {
     return {
       attempts: 40,
-      GRID_SIZE: 4,
-      shipsToUse: [4],
+      GRID_SIZE: 8,
+      shipsToUse: [4,3,2,1],
       takenCoordinates: [],
       ships: [],
       isEndGameModal: false,
