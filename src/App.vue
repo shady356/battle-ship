@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition name="fade" style="overflow:hidden;">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -13,6 +15,7 @@ export default {
 <style>
 body {
   background: #333;
+  overflow: hidden;
 }
 
 * {
@@ -31,6 +34,8 @@ body {
 
 h2,h3,h4,h5,h6 {
   margin: 0px;
+  font-style: italic;
+  font-weight: 400;
 }
 
 .noSelect {
@@ -41,5 +46,15 @@ h2,h3,h4,h5,h6 {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all .4s ease-in;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>

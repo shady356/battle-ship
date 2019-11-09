@@ -15,8 +15,8 @@
       </router-link> 
     </ul>
     <div v-if="introSong">
-      <button @click="fadeOut()">pause sound</button>
-      <button @click="introSong.play()">play sound</button>
+<!--       <button @click="fadeOut()">pause sound</button>
+      <button @click="introSong.play()">play sound</button> -->
 
     </div>
   </div>
@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       introSong: null,
-      introSongVolume: .5,
+      introSongVolume: .8,
       items: [
         {
           name: 'Play',
@@ -36,10 +36,10 @@ export default {
         },
         {
           name: 'Settings',
-          path: '/'
+          path: '/settings'
         },
         {
-          name: 'quit',
+          name: 'Quit',
           path: '/'
         }
       ]
@@ -47,7 +47,7 @@ export default {
   },
   mounted  () {
     this.introSong = this.createMainThemeInstance()
-    this.introSong.play()
+    //this.introSong.play()
   },
   methods: {
     createMainThemeInstance () {
@@ -69,20 +69,21 @@ export default {
 <style scoped>
   .container {
     height: 100vh;
+    width: 100vw;
     background-image: url('../assets/mainMenuBG.png');
     background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
   }
 
   .mainLogo {
-    position: absolute;
-    top: 100px;
-    left: 30vh;
     font-family: 'Satisfy', cursive;
     font-weight: unset;
     color: #1f386e;
     font-size: 46px;
     line-height: 40px;
-    text-align: left;
+    text-align: center;
+    padding-top: 100px;
     animation: mainLogo 400ms ease-in;
   }
   .mainLogo .stopWord {
@@ -90,34 +91,20 @@ export default {
   }
 
   .mainMenuList {
-    position: absolute;
-    text-align: left;
-    top: 20vh;
-    left: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 80px;
   }
 
   .mainMenuList li {
-    font-family: 'Satisfy', cursive;
-    font-size: 28px;
-    letter-spacing: 4px;
-    color: #e6e1c9;
-    padding-left: 10px;
-    margin-bottom: 20px;
+    font-size: 36px;
+    letter-spacing: 1px;
+    color: #dae2f7;
+    font-weight: 400;
+    margin-bottom: 30px;
     border-left: 4px solid transparent;
     cursor: pointer;
-    transition: all .4s;
-  }
-
-  .mainMenuList:hover {
-
-    transform: rotate(0deg);
-    transition: all .4s;
-  }
-  .mainMenuList li:hover {
-    color: #fff;
-    transform: rotateY(5deg);
-    border-color: #166d88;
-    transition: all .4s;
   }
 
   @keyframes mainLogo {

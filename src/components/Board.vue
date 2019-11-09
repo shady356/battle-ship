@@ -87,6 +87,7 @@ export default {
         this.isBomb = true
         this.bombRow = slot.row
         this.bombCol = slot.column
+        
         isShipStatus ? this.getBombHitSFX().play() : this.getBombMissSFX().play()
 
         setTimeout(() => {
@@ -95,6 +96,10 @@ export default {
           this.bombCol = 0;
           this.grid[slot.row][slot.column].isShip = isShipStatus
           this.grid[slot.row][slot.column].isPlayed = true;
+
+          if(isShipStatus) {
+            window.navigator.vibrate([10,20])
+          }
 
         }, 600)
       }
@@ -129,13 +134,13 @@ export default {
     getBombMissSFX () {
       let bombSFX = new Audio(require('@/assets/bombMiss.wav')); 
       bombSFX.loop = false;
-      bombSFX.volume = 0.5
+      bombSFX.volume = 1
       return bombSFX;
     },
     getBombHitSFX () {
       let bombSFX = new Audio(require('@/assets/bombHit.wav')); 
       bombSFX.loop = false;
-      bombSFX.volume = 0.5
+      bombSFX.volume = 1
       return bombSFX;
     },
   

@@ -62,9 +62,9 @@ export default {
   },
   data() {
     return {
-      attempts: 40,
-      GRID_SIZE: 8,
-      shipsToUse: [4,3,2,1],
+      attempts: 20,
+      GRID_SIZE: 7,
+      shipsToUse: [4,3],
       takenCoordinates: [],
       ships: [],
       isEndGameModal: false,
