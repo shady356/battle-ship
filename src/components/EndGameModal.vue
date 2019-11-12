@@ -5,17 +5,28 @@
     </div> -->
 
     <!-- Win msg -->
+
+    <h2>You Rock!</h2>
+
     <div 
       class="score"
       v-if="result.win"
-      >
-      <h2>You Rock!</h2><br><br>
+    >
+      
       <div class="label">
         bombs left
       </div>
       <div class="value">
         {{ result.bombs}}
       </div>
+
+      <div class="label">
+        highscore
+      </div>
+      <div class="value">
+        {{ highscore}}
+      </div>
+
     </div>
 
     <!-- fail msg -->
@@ -38,16 +49,11 @@ export default {
   name: 'end-game-modal',
   data() {
     return {
-
+      highscore: null
     }
   },
   components: {
     BaseButton
-  },
-  computed: {
-    endGameStatusTitle() {
-      return this.result.win ? 'You Rock!' : 'Game Over'
-    }
   },
   props: {
     result: {
@@ -55,6 +61,20 @@ export default {
       required: true
     }
   },
+  computed: {
+    endGameStatusTitle() {
+      return this.result.win ? 'You Rock!' : 'Game Over'
+    }
+  },
+  created() {
+    let currentHighscore = localStorage.getItem('highscore')
+    if(this.result.win && this.result.bombs > currentHighscore) {
+      localStorage.setItem('highscore', this.result.bombs)
+      currentHighscore = this.result.bombs
+    }
+    this.highscore = currentHighscore
+  },
+
   methods: {
     retry() {
       this.$router.go()

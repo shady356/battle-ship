@@ -52,7 +52,7 @@ export default {
   },
   data() {
     return {
-      attempts: 20,
+      attempts: 50,
       GRID_SIZE: 7,
       shipsToUse: [4,3],
       takenCoordinates: [],
