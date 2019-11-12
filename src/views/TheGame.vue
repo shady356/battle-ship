@@ -13,17 +13,7 @@
     <div class="dashboard">
 
       <div class="attempts">
-        {{attempts}} <span>💣</span><br>
-        <base-button 
-          @click="endGame(true)"
-        >
-          test win
-        </base-button>
-        <base-button 
-          @click="endGame(false)"
-        >
-          test fail
-        </base-button>
+        {{attempts}} <span>💣</span>
       </div>
 
       <div class="ships">
@@ -49,14 +39,14 @@
 
 <script>
 import EndGameModal from '@/components/EndGameModal.vue'
-import BaseButton from '@/components/base/BaseButton.vue'
+//import BaseButton from '@/components/base/BaseButton.vue'
 import BaseModal from '@/components/base/BaseModal.vue'
 import Board from "@/components/Board.vue";
 export default {
   name: "TheGame",
   components: {
     Board,
-    BaseButton,
+    //BaseButton,
     BaseModal,
     EndGameModal
   },

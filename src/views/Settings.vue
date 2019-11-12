@@ -2,7 +2,17 @@
   <div class="container">
     
     <div class="header">
-      <h2>Settings</h2>
+      <router-link 
+        class="back-button"
+        tag="div"
+        to="/"
+      >
+        👈Back
+      </router-link>
+      <h2 class="title">
+        Settings
+      </h2>
+      <div class="right-content"/>
     </div>
 
     <ul class="list">
@@ -17,12 +27,10 @@
         </div>
       </li>
     </ul>
-    <base-button>
-      Save
-    </base-button>
+
     <base-button
     class="ghost">
-      Reset to <br>default
+      Reset to default
     </base-button>
   </div>
 </template>
@@ -81,7 +89,20 @@ export default {
   }
   .header {
     margin-bottom: 40px;
+    display: flex;
+    align-items: center;
   }
+  .header .title {
+    flex-grow: 10;
+    text-align: center;
+  }
+  .header .back-button{
+    flex-basis: 15%;
+  }
+  .header .right-content{
+    flex-basis: 15%;
+  }
+  /* --- */
   .list {
     padding: 0 40px;
     text-align: left;

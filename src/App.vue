@@ -16,6 +16,8 @@ export default {
 body {
   background: #333;
   overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }
 
 * {

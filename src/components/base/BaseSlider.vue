@@ -47,14 +47,14 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -11px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #132C42;
+  background: #4d4d4d;
 }
 input[type=range]::-moz-range-track {
   width: 100%;
   height: 4px;
   cursor: pointer;
   animate: 0.2s;
-  background: #132C42;
+  background: #5c5c5c;
   border-radius: 5px;
 }
 input[type=range]::-moz-range-thumb {

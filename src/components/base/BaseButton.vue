@@ -32,6 +32,7 @@ export default {
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 700;
     padding: 8px 18px;
+    cursor: pointer;
   }
   .ghost {
     background: none;
